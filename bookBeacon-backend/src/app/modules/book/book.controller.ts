@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import Book from "./book.model";
 import { createBookZodSchema, updateBookZodSchema } from "./book.validation";
 
-
 export const createBook = async (req: Request, res: Response) => {
   try {
-    const validatedData = createBookZodSchema.parse(req);
+    
+    const validatedData = createBookZodSchema.parse({ body: req.body }); // createBook এখনো body প্রত্যাশা করে
     const { title, author, isbn, genre, description, copies, available, image } = validatedData.body;
     const book = new Book({
       title,
@@ -26,11 +26,12 @@ export const createBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    console.error("Create error:", error);
+    if (error instanceof ZodError) {
       res.status(400).json({
         success: false,
         message: "Validation failed",
-        error: error.errors,
+        error: error.issues,
       });
     } else {
       res.status(500).json({
@@ -45,14 +46,17 @@ export const createBook = async (req: Request, res: Response) => {
 export const deleteBook = async (req: Request, res: Response): Promise<void> => {
   try {
     const { bookId } = req.params;
+    
     const book = await Book.findById(bookId);
 
     if (!book) {
+      
       res.status(404).json({ message: "Book not found", success: false, data: null });
       return;
     }
 
     await book.deleteOne();
+    
 
     res.status(200).json({
       success: true,
@@ -60,6 +64,7 @@ export const deleteBook = async (req: Request, res: Response): Promise<void> => 
       data: null,
     });
   } catch (error) {
+    console.error("Delete error:", error);
     res.status(500).json({
       success: false,
       message: "Book deletion failed",
@@ -108,6 +113,7 @@ export const findAllBooks = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
+    console.error("Find all books error:", error);
     res.status(500).json({
       success: false,
       message: "Books retrieval failed",
@@ -119,9 +125,11 @@ export const findAllBooks = async (req: Request, res: Response) => {
 export const findSingleBook = async (req: Request, res: Response): Promise<void> => {
   try {
     const { bookId } = req.params;
+    
     const book = await Book.findById(bookId);
 
     if (!book) {
+      
       res.status(404).json({
         success: false,
         message: "Book not found",
@@ -136,6 +144,7 @@ export const findSingleBook = async (req: Request, res: Response): Promise<void>
       data: book,
     });
   } catch (error) {
+    console.error("Find single book error:", error);
     res.status(500).json({
       success: false,
       message: "Book retrieval failed",
@@ -146,9 +155,9 @@ export const findSingleBook = async (req: Request, res: Response): Promise<void>
 
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const validatedData = updateBookZodSchema.parse(req.body);
+    const validatedData = updateBookZodSchema.parse(req.body); // req.body সরাসরি পার্স করো
     const { bookId } = req.params;
-    const { title, author, isbn, genre, copies, description, image } = validatedData;
+    const { title, author, isbn, genre, copies, description, image } = validatedData; // validatedData.body এর বদলে validatedData
 
     const book = await Book.findById(bookId);
 
@@ -178,11 +187,12 @@ export const updateBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    console.error("Update error:", error);
+    if (error instanceof ZodError) {
       res.status(400).json({
         success: false,
         message: "Validation failed",
-        error: error.errors,
+        error: error.issues,
       });
     } else {
       res.status(500).json({

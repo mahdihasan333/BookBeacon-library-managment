@@ -11,21 +11,19 @@ const PORT = process.env.PORT || 5000;
 
 async function main() {
   try {
-    // Validate environment variables
     if (!process.env.DATABASE_URL) {
       throw new Error("DATABASE_URL is not defined in .env file");
     }
 
-    // Connect to MongoDB
-    await mongoose.connect(process.env.DATABASE_URL);
+    await mongoose.connect(process.env.DATABASE_URL, {
+      dbName: "bookBeacon",
+    });
     console.log("Connected to MongoDB Using Mongoose!");
 
-    // Start server
     server = app.listen(PORT, () => {
       console.log(`App is listening on port ${PORT}`);
     });
 
-    // Handle server errors
     server.on("error", (error) => {
       console.error("Server error:", error);
       process.exit(1);
@@ -35,7 +33,6 @@ async function main() {
     process.exit(1);
   }
 
-  // Handle process termination
   process.on("SIGTERM", () => {
     console.log("SIGTERM received. Shutting down gracefully...");
     server.close(() => {

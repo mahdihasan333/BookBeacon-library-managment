@@ -24,13 +24,11 @@ export const createBookZodSchema = z.object({
 });
 
 export const updateBookZodSchema = z.object({
-  body: z.object({
-    title: z.string().optional(),
-    author: z.string().optional(),
-    isbn: z.string().optional(),
-    genre: z.enum(["FICTION", "NON_FICTION", "SCIENCE", "HISTORY", "BIOGRAPHY", "FANTASY"]).optional(),
-    description: z.string().optional(),
-    copies: z.number().min(0, "Copies cannot be negative").optional(),
-    image: z.string().optional(),
-  }),
+  title: z.string().optional(),
+  author: z.string().optional(),
+  isbn: z.string().optional(),
+  genre: z.enum(["FICTION", "NON_FICTION", "SCIENCE", "HISTORY", "BIOGRAPHY", "FANTASY"]).optional(),
+  description: z.string().optional(),
+  copies: z.number().min(0, "Copies cannot be negative").optional(),
+  image: z.string().optional(),
 });
