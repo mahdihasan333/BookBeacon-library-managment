@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
+import { z } from "zod";
 import Book from "./book.model";
 import { createBookZodSchema, updateBookZodSchema } from "./book.validation";
+
 
 export const createBook = async (req: Request, res: Response) => {
   try {
@@ -24,11 +26,19 @@ export const createBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Book creation failed",
-      success: false,
-      error,
-    });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        error: error.errors,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Book creation failed",
+        error: error.message || error,
+      });
+    }
   }
 };
 
@@ -53,7 +63,7 @@ export const deleteBook = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({
       success: false,
       message: "Book deletion failed",
-      error,
+      error: error.message || error,
     });
   }
 };
@@ -99,9 +109,9 @@ export const findAllBooks = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Books retrieval failed",
       success: false,
-      error,
+      message: "Books retrieval failed",
+      error: error.message || error,
     });
   }
 };
@@ -129,16 +139,16 @@ export const findSingleBook = async (req: Request, res: Response): Promise<void>
     res.status(500).json({
       success: false,
       message: "Book retrieval failed",
-      error,
+      error: error.message || error,
     });
   }
 };
 
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const validatedData = updateBookZodSchema.parse(req);
+    const validatedData = updateBookZodSchema.parse(req.body);
     const { bookId } = req.params;
-    const { title, author, isbn, copies, description, image } = validatedData.body;
+    const { title, author, isbn, genre, copies, description, image } = validatedData;
 
     const book = await Book.findById(bookId);
 
@@ -154,6 +164,7 @@ export const updateBook = async (req: Request, res: Response) => {
     book.title = title ?? book.title;
     book.author = author ?? book.author;
     book.isbn = isbn ?? book.isbn;
+    book.genre = genre ?? book.genre;
     book.description = description ?? book.description;
     book.copies = copies ?? book.copies;
     book.available = copies !== undefined ? copies > 0 : book.available;
@@ -167,10 +178,18 @@ export const updateBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Book update failed",
-      error,
-    });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        error: error.errors,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Book update failed",
+        error: error.message || error,
+      });
+    }
   }
 };
