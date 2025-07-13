@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import ThemeToggle from "./ThemeToggle";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
+import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   return (

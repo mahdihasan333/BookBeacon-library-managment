@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetBookQuery, useUpdateBookMutation } from "../api/booksApi";
 import BookForm from "../components/BookForm";
 import { motion } from "framer-motion";
+import { IBook } from "../types";
 
 function EditBookPage() {
   const { id } = useParams<{ id: string }>();

@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useGetBookQuery } from "../api/booksApi";
-import { useCreateBorrowMutation } from "../api/borrowsApi";
 import BorrowForm from "../components/BorrowForm";
 import { motion } from "framer-motion";
+import { useCreateBorrowMutation } from "../api/borrowApi";
+import { IBook } from "../types";
 
 function BorrowPage() {
   const { bookId } = useParams<{ bookId: string }>();

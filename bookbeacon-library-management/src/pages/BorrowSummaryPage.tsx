@@ -1,6 +1,6 @@
-import { useGetBorrowsQuery } from "../api/borrowsApi";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { useGetBorrowsQuery } from "../api/borrowApi";
 
 function BorrowSummaryPage() {
   const { data, error, isLoading } = useGetBorrowsQuery();

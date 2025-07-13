@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
+
+import BorrowSummaryPage from "./pages/BorrowSummaryPage";
+import BorrowPage from "./pages/BorrowPage";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import BooksPage from "./pages/BooksPage";
 import CreateBookPage from "./pages/CreateBookPage";
 import EditBookPage from "./pages/EditBookPage";
 import BookDetailsPage from "./pages/BookDetailsPage";
-import BorrowPage from "./pages/BorrowPage";
-import BorrowSummaryPage from "./pages/BorrowSummaryPage";
+import Footer from "./components/Footer";
 
 function App() {
   return (

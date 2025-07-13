@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { toast } from "./ui/toast";
 import { motion } from "framer-motion";
+import { toast } from "./hooks/use-toast";
 
 interface BorrowFormProps {
   bookId: string;

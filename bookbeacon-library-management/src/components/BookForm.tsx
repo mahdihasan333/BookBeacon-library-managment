@@ -5,8 +5,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { toast } from "./ui/toast";
 import { motion } from "framer-motion";
+import { toast } from "./hooks/use-toast";
 
 interface BookFormProps {
   initialData?: IBook;
