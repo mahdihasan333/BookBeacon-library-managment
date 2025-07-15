@@ -42,6 +42,7 @@ export const createBorrow = async (req: Request, res: Response) => {
     }
 
     findBook.copies -= quantity;
+    findBook.available = findBook.copies > 0;
     await findBook.save();
 
     const borrow = new Borrow({
@@ -50,7 +51,6 @@ export const createBorrow = async (req: Request, res: Response) => {
       dueDate: new Date(dueDate),
     });
 
-    await Borrow.updateAvailability(book);
     await borrow.save();
 
     res.status(201).json({
@@ -139,7 +139,7 @@ export const findSingleBorrow = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "Borrow retrieved successfully",
+      message: "Borrow returned successfully",
       data: borrow,
     });
   } catch (error) {
@@ -183,7 +183,7 @@ export const updateBorrow = async (req: Request, res: Response) => {
 
     if (quantity !== undefined) {
       const quantityDifference = quantity - borrow.quantity;
-      if (findBook.copies < quantityDifference) {
+      if (quantityDifference > 0 && findBook.copies < quantityDifference) {
         console.log(`Not enough ${quantityDifference} copies available for book`, borrow.book);
         res.status(400).json({
           success: false,
@@ -193,6 +193,7 @@ export const updateBorrow = async (req: Request, res: Response) => {
         return;
       }
       findBook.copies -= quantityDifference;
+      findBook.available = findBook.copies > 0;
       await findBook.save();
       borrow.quantity = quantity;
     }
@@ -201,7 +202,6 @@ export const updateBorrow = async (req: Request, res: Response) => {
       borrow.dueDate = new Date(dueDate);
     }
 
-    await Borrow.updateAvailability(borrow.book.toString());
     await borrow.save();
 
     res.status(200).json({
@@ -246,8 +246,8 @@ export const deleteBorrow = async (req: Request, res: Response) => {
     const findBook = await Book.findById(borrow.book);
     if (findBook) {
       findBook.copies += borrow.quantity;
+      findBook.available = findBook.copies > 0;
       await findBook.save();
-      await Borrow.updateAvailability(borrow.book.toString());
     }
 
     await borrow.deleteOne();
