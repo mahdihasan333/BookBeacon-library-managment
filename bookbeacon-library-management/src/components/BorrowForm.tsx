@@ -57,8 +57,6 @@ function BorrowForm({ bookId, maxCopies, onSubmit }: BorrowFormProps) {
                 type="number"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-                min="1"
-                max={maxCopies}
                 required
               />
               <p className="text-sm text-gray-500 dark:text-gray-400">Available copies: {maxCopies}</p>
