@@ -2,7 +2,6 @@ import BookForm from "../components/BookForm";
 import { useCreateBookMutation } from "../api/booksApi";
 import { motion } from "framer-motion";
 import type { IBook } from "@/types";
-// import { IBook } from "../types";
 
 function CreateBookPage() {
   const [createBook] = useCreateBookMutation();

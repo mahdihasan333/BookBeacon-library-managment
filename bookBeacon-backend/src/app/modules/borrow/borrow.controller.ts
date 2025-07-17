@@ -6,7 +6,6 @@ import { createBorrowZodSchema, updateBorrowZodSchema } from "./borrow.validatio
 
 export const createBorrow = async (req: Request, res: Response) => {
   try {
-    console.log("POST /api/borrow called", req.body);
     const validatedData = createBorrowZodSchema.parse({ body: req.body });
     const { book, quantity, dueDate } = validatedData.body;
 
@@ -78,7 +77,6 @@ export const createBorrow = async (req: Request, res: Response) => {
 
 export const findAllBorrows = async (req: Request, res: Response) => {
   try {
-    console.log("GET /api/borrow called");
     const borrows = await Borrow.aggregate([
       {
         $group: { _id: "$book", totalQuantity: { $sum: "$quantity" } },
@@ -124,7 +122,6 @@ export const findAllBorrows = async (req: Request, res: Response) => {
 export const findSingleBorrow = async (req: Request, res: Response) => {
   try {
     const { borrowId } = req.params;
-    console.log("GET /api/borrow/:borrowId called", borrowId);
     const borrow = await Borrow.findById(borrowId).populate("book");
 
     if (!borrow) {
@@ -154,7 +151,6 @@ export const findSingleBorrow = async (req: Request, res: Response) => {
 
 export const updateBorrow = async (req: Request, res: Response) => {
   try {
-    console.log("PATCH /api/borrow/:borrowId called", req.params, req.body);
     const validatedData = updateBorrowZodSchema.parse({ body: req.body });
     const { borrowId } = req.params;
     const { quantity, dueDate } = validatedData.body;
@@ -230,7 +226,6 @@ export const updateBorrow = async (req: Request, res: Response) => {
 export const deleteBorrow = async (req: Request, res: Response) => {
   try {
     const { borrowId } = req.params;
-    console.log("DELETE /api/borrow/:borrowId called", borrowId);
     const borrow = await Borrow.findById(borrowId);
 
     if (!borrow) {
