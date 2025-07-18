@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 import Book from "./book.model";
 import { createBookZodSchema, updateBookZodSchema } from "./book.validation";
 
 export const createBook = async (req: Request, res: Response) => {
   try {
-    
-    const validatedData = createBookZodSchema.parse({ body: req.body }); // createBook এখনো body প্রত্যাশা করে
+    const validatedData = createBookZodSchema.parse({ body: req.body });
     const { title, author, isbn, genre, description, copies, available, image } = validatedData.body;
     const book = new Book({
       title,
@@ -25,7 +24,7 @@ export const createBook = async (req: Request, res: Response) => {
       message: "Book created successfully",
       data: book,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Create error:", error);
     if (error instanceof ZodError) {
       res.status(400).json({
@@ -37,7 +36,7 @@ export const createBook = async (req: Request, res: Response) => {
       res.status(500).json({
         success: false,
         message: "Book creation failed",
-        error: error.message || error,
+        error: error.message || "An unexpected error occurred",
       });
     }
   }
@@ -50,25 +49,23 @@ export const deleteBook = async (req: Request, res: Response): Promise<void> => 
     const book = await Book.findById(bookId);
 
     if (!book) {
-      
       res.status(404).json({ message: "Book not found", success: false, data: null });
       return;
     }
 
     await book.deleteOne();
-    
 
     res.status(200).json({
       success: true,
       message: "Book deleted successfully",
       data: null,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Delete error:", error);
     res.status(500).json({
       success: false,
       message: "Book deletion failed",
-      error: error.message || error,
+      error: error.message || "An unexpected error occurred",
     });
   }
 };
@@ -112,12 +109,12 @@ export const findAllBooks = async (req: Request, res: Response) => {
         total,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Find all books error:", error);
     res.status(500).json({
       success: false,
       message: "Books retrieval failed",
-      error: error.message || error,
+      error: error.message || "An unexpected error occurred",
     });
   }
 };
@@ -129,7 +126,6 @@ export const findSingleBook = async (req: Request, res: Response): Promise<void>
     const book = await Book.findById(bookId);
 
     if (!book) {
-      
       res.status(404).json({
         success: false,
         message: "Book not found",
@@ -143,21 +139,21 @@ export const findSingleBook = async (req: Request, res: Response): Promise<void>
       message: "Book retrieved successfully",
       data: book,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Find single book error:", error);
     res.status(500).json({
       success: false,
       message: "Book retrieval failed",
-      error: error.message || error,
+      error: error.message || "An unexpected error occurred",
     });
   }
 };
 
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const validatedData = updateBookZodSchema.parse(req.body); // req.body সরাসরি পার্স করো
+    const validatedData = updateBookZodSchema.parse(req.body);
     const { bookId } = req.params;
-    const { title, author, isbn, genre, copies, description, image } = validatedData; // validatedData.body এর বদলে validatedData
+    const { title, author, isbn, genre, copies, description, image } = validatedData;
 
     const book = await Book.findById(bookId);
 
@@ -186,7 +182,7 @@ export const updateBook = async (req: Request, res: Response) => {
       message: "Book updated successfully",
       data: book,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Update error:", error);
     if (error instanceof ZodError) {
       res.status(400).json({
@@ -198,7 +194,7 @@ export const updateBook = async (req: Request, res: Response) => {
       res.status(500).json({
         success: false,
         message: "Book update failed",
-        error: error.message || error,
+        error: error.message || "An unexpected error occurred",
       });
     }
   }
