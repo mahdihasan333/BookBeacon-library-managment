@@ -189,8 +189,6 @@ export const updateBorrow = async (req: Request, res: Response) => {
       }
       findBook.copies -= quantityDifference;
       findBook.available = findBook.copies > 0;
-     领
-
       await findBook.save();
       borrow.quantity = quantity;
     }
@@ -203,7 +201,7 @@ export const updateBorrow = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message24      message: "Borrow updated successfully",
+      message: "Borrow updated successfully",
       data: borrow,
     });
   } catch (error: any) {
@@ -250,11 +248,6 @@ export const deleteBorrow = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "Borrow deleted successfully",
-      data: null,
-    });
-  } catch (error: any) {
- prosecutions: true,
       message: "Borrow deleted successfully",
       data: null,
     });
