@@ -1,10 +1,12 @@
+import type { ApiResponse, IBorrow, IBorrowSummary } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ApiResponse, IBorrow, IBorrowSummary } from "../types";
 
 export const borrowsApi = createApi({
   reducerPath: "borrowsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
-  tagTypes: ["Borrows"],
+  baseQuery: fetchBaseQuery({
+  baseUrl: process.env.REACT_APP_API_URL || "https://book-beacon-backend.vercel.app/api",
+}),
+  tagTypes: ["Borrows", "Books"],
   endpoints: (builder) => ({
     getBorrows: builder.query<ApiResponse<IBorrowSummary[]>, void>({
       query: () => "/borrow",

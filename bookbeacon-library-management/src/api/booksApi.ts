@@ -1,9 +1,12 @@
+import type { ApiResponse, IBook } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ApiResponse, IBook } from "../types";
+
 
 export const booksApi = createApi({
   reducerPath: "booksApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({
+  baseUrl: process.env.REACT_APP_API_URL || "https://book-beacon-backend.vercel.app/api",
+}),
   tagTypes: ["Books"],
   endpoints: (builder) => ({
     getBooks: builder.query<
