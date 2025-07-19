@@ -1,5 +1,4 @@
-import { useState, FormEvent } from "react";
-import { IBook } from "../types";
+import { useState, type FormEvent} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -7,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { motion } from "framer-motion";
 import { toast } from "./hooks/use-toast";
+import type { IBook } from "@/types";
 
 interface BookFormProps {
   initialData?: IBook;

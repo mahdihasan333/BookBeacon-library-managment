@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "https://library-frontend-roan.vercel.app",
+      "https://bookbeacon-library-management.vercel.app",
       "http://localhost:5173",
     ],
     credentials: true,

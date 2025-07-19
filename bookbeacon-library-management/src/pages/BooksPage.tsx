@@ -3,7 +3,6 @@ import BookCard from "../components/BookCard";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "../components/ui/button";
-import { useState } from "react";
 
 function BooksPage() {
   const [searchParams, setSearchParams] = useSearchParams();
