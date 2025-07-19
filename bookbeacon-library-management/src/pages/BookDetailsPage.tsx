@@ -11,11 +11,11 @@ function BookDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-white dark:bg-gray-900">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="h-12 w-12 border-4 border-t-blue-500 border-gray-300 rounded-full"
+          className="h-12 w-12 border-4 border-t-blue-500 dark:border-t-blue-400 border-gray-300 dark:border-gray-600 rounded-full"
         />
       </div>
     );
@@ -23,8 +23,17 @@ function BookDetailsPage() {
 
   if (error) {
     return (
-      <div className="text-center text-red-500 text-xl p-4">
-        Error loading book: {JSON.stringify(error)}
+      <div className="flex flex-col justify-center items-center h-screen bg-white dark:bg-gray-900 text-center">
+        <p className="text-red-500 dark:text-red-400 text-xl mb-4">Could not load book details.</p>
+        <Link to="/books">
+          <Button
+            variant="outline"
+            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors duration-300"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back to Books</span>
+          </Button>
+        </Link>
       </div>
     );
   }
@@ -36,12 +45,12 @@ function BookDetailsPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="container mx-auto p-4 sm:p-6 lg:p-8"
+      className="container mx-auto p-4 sm:p-6 lg:p-8 bg-white dark:bg-gray-900"
     >
       <Link to="/books">
         <Button
           variant="outline"
-          className="mb-6 flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors duration-300"
+          className="mb-6 flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors duration-300"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Back to Books</span>
@@ -49,8 +58,8 @@ function BookDetailsPage() {
       </Link>
 
       <Card className="max-w-6xl mx-auto bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-xl rounded-xl overflow-hidden">
-        <CardHeader className="bg-blue-600 dark:bg-gray-700 text-white p-8">
-          <CardTitle className="text-3xl font-bold tracking-tight">{book?.title}</CardTitle>
+        <CardHeader className="bg-blue-600 dark:bg-blue-800 text-white p-8">
+          <CardTitle className="text-3xl font-bold tracking-tight">{book?.title || "N/A"}</CardTitle>
         </CardHeader>
         <CardContent className="p-8">
           {book?.image ? (

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +18,7 @@ function Navbar() {
 
   return (
     <motion.nav
-      className="bg-gradient-to-r from-blue-500 to-blue-700 dark:from-gray-800 dark:to-gray-900 text-white p-4 shadow-lg"
+      className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 shadow-lg"
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -44,12 +43,10 @@ function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          <ThemeToggle />
         </div>
 
-        {/* Mobile Menu Button and ThemeToggle */}
-        <div className="flex items-center space-x-4 md:hidden">
-          <ThemeToggle />
+        {/* Mobile Menu Button */}
+        <div className="flex items-center md:hidden">
           <button
             className="text-white focus:outline-none"
             onClick={toggleMenu}
@@ -67,7 +64,7 @@ function Navbar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
-          className="md:hidden bg-blue-600 dark:bg-gray-800 p-4 mt-2 rounded-b-lg shadow-lg"
+          className="md:hidden bg-blue-600 p-4 mt-2 rounded-b-lg shadow-lg"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
