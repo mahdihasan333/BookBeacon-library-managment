@@ -3,7 +3,7 @@ import { useGetBookQuery } from "../api/booksApi";
 import BorrowForm from "../components/BorrowForm";
 import { motion } from "framer-motion";
 import { useCreateBorrowMutation } from "../api/borrowApi";
-import { IBook } from "../types";
+import type { IBook } from "@/types";
 
 function BorrowPage() {
   const { bookId } = useParams<{ bookId: string }>();

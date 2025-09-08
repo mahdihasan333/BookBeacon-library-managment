@@ -9,8 +9,8 @@ function BooksPage() {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = 9; // Set to 9 cards per page
   const { data, error, isLoading } = useGetBooksQuery({
-    page: page.toString(),
-    limit: limit.toString(),
+    page: Number(page.toString()),
+    limit: Number(limit.toString()),
   });
 
   // Debug: Console log to inspect data

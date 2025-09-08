@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { IBook } from "../types";
 import { useState } from "react";
 import { useDeleteBookMutation } from "../api/booksApi";
 import { motion } from "framer-motion";
@@ -14,6 +13,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { toast } from "./hooks/use-toast";
+import type { IBook } from "@/types";
 
 interface BookCardProps {
   book: IBook;

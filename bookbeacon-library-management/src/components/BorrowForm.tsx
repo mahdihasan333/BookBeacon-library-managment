@@ -1,11 +1,11 @@
-import { useState, FormEvent } from "react";
-import { IBorrow } from "../types";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { motion } from "framer-motion";
 import { toast } from "./hooks/use-toast";
+import type { IBorrow } from "@/types";
 
 interface BorrowFormProps {
   bookId: string;
