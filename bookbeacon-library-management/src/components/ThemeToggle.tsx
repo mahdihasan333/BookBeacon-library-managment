@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Switch } from "./ui/switch";
 import { Sun, Moon } from "lucide-react";
@@ -6,6 +6,7 @@ import { Sun, Moon } from "lucide-react";
 function ThemeToggle() {
   const [isDark, setIsDark] = useState(() => localStorage.getItem("theme") === "dark");
 
+  // Apply theme to document
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
@@ -23,13 +24,13 @@ function ThemeToggle() {
       whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <Sun className="h-5 w-5 text-yellow-500 dark:text-yellow-400 transition-colors duration-300" />
+      <Sun className="h-4 w-4 text-yellow-500 dark:text-yellow-400 transition-colors duration-300" />
       <Switch
         checked={isDark}
         onCheckedChange={setIsDark}
-        className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300"
+        className="data-[state=checked]:bg-indigo-600 data-[state=unchecked]:bg-gray-300 h-5 w-9"
       />
-      <Moon className="h-5 w-5 text-gray-600 dark:text-gray-200 transition-colors duration-300" />
+      <Moon className="h-4 w-4 text-gray-600 dark:text-gray-200 transition-colors duration-300" />
     </motion.div>
   );
 }

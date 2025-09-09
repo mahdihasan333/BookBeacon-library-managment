@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Laptop } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { useTheme } from "./ThemeProvider";
+
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleTheme = () => setDarkMode(!darkMode);
 
   const navLinks = [
     { to: "/books", label: "All Books" },
@@ -18,18 +26,16 @@ function Navbar() {
 
   return (
     <motion.nav
-      className={`${
-        darkMode
-          ? "bg-gray-900 text-white"
-          : "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-      } p-4 shadow-lg sticky top-0 z-50`}
+      className="p-4 shadow-lg sticky top-0 z-50 bg-white dark:bg-gray-900"
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <h1 className="text-2xl font-extrabold tracking-tight">BookBeacon</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          BookBeacon
+        </h1>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
@@ -40,8 +46,8 @@ function Navbar() {
               className={({ isActive }) =>
                 `text-lg font-medium transition-colors duration-300 ${
                   isActive
-                    ? "text-yellow-300 border-b-2 border-yellow-300"
-                    : "hover:text-yellow-200"
+                    ? "text-yellow-400 border-b-2 border-yellow-400"
+                    : "text-gray-700 dark:text-gray-300 hover:text-yellow-300"
                 }`
               }
             >
@@ -49,37 +55,72 @@ function Navbar() {
             </NavLink>
           ))}
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="ml-4 p-2 rounded-md hover:bg-white/20 transition-colors duration-300"
-            aria-label="Toggle Theme"
-          >
-            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
+          {/* ShadCN style Theme Toggle Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="ml-4">
+                {theme === "light" && <Sun className="h-5 w-5" />}
+                {theme === "dark" && <Moon className="h-5 w-5" />}
+                {theme === "system" && <Laptop className="h-5 w-5" />}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-md"
+            >
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="mr-2 h-4 w-4" />
+                <span>Light</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="mr-2 h-4 w-4" />
+                <span>Dark</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <Laptop className="mr-2 h-4 w-4" />
+                <span>System</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center md:hidden">
-          {/* Theme Toggle for Mobile */}
-          <button
-            onClick={toggleTheme}
-            className="mr-2 p-2 rounded-md hover:bg-white/20 transition-colors duration-300"
-            aria-label="Toggle Theme"
-          >
-            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
+        <div className="flex items-center md:hidden space-x-2">
+          {/* Theme Toggle Dropdown for Mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                {theme === "light" && <Sun className="h-5 w-5" />}
+                {theme === "dark" && <Moon className="h-5 w-5" />}
+                {theme === "system" && <Laptop className="h-5 w-5" />}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-md"
+            >
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="mr-2 h-4 w-4" />
+                <span>Light</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="mr-2 h-4 w-4" />
+                <span>Dark</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <Laptop className="mr-2 h-4 w-4" />
+                <span>System</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
+          {/* Hamburger Menu */}
           <button
             className="focus:outline-none"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
@@ -87,9 +128,7 @@ function Navbar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
-          className={`md:hidden p-4 mt-2 rounded-b-lg shadow-lg ${
-            darkMode ? "bg-gray-800 text-white" : "bg-blue-600 text-white"
-          }`}
+          className="md:hidden p-4 mt-2 rounded-b-lg shadow-lg bg-white dark:bg-gray-800"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -103,8 +142,8 @@ function Navbar() {
                 className={({ isActive }) =>
                   `text-lg font-medium transition-colors duration-300 ${
                     isActive
-                      ? "text-yellow-300 border-l-4 border-yellow-300 pl-2"
-                      : "hover:text-yellow-200"
+                      ? "text-yellow-400 border-l-4 border-yellow-400 pl-2"
+                      : "text-gray-700 dark:text-gray-300 hover:text-yellow-300"
                   }`
                 }
                 onClick={() => setIsMenuOpen(false)}
