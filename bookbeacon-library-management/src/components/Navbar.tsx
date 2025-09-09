@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleTheme = () => setDarkMode(!darkMode);
 
   const navLinks = [
     { to: "/books", label: "All Books" },
@@ -18,12 +18,17 @@ function Navbar() {
 
   return (
     <motion.nav
-      className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 shadow-lg"
+      className={`${
+        darkMode
+          ? "bg-gray-900 text-white"
+          : "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+      } p-4 shadow-lg sticky top-0 z-50`}
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="container mx-auto flex justify-between items-center">
+        {/* Logo */}
         <h1 className="text-2xl font-extrabold tracking-tight">BookBeacon</h1>
 
         {/* Desktop Menu */}
@@ -36,19 +41,37 @@ function Navbar() {
                 `text-lg font-medium transition-colors duration-300 ${
                   isActive
                     ? "text-yellow-300 border-b-2 border-yellow-300"
-                    : "text-white hover:text-yellow-200"
+                    : "hover:text-yellow-200"
                 }`
               }
             >
               {link.label}
             </NavLink>
           ))}
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="ml-4 p-2 rounded-md hover:bg-white/20 transition-colors duration-300"
+            aria-label="Toggle Theme"
+          >
+            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex items-center md:hidden">
+          {/* Theme Toggle for Mobile */}
           <button
-            className="text-white focus:outline-none"
+            onClick={toggleTheme}
+            className="mr-2 p-2 rounded-md hover:bg-white/20 transition-colors duration-300"
+            aria-label="Toggle Theme"
+          >
+            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+
+          <button
+            className="focus:outline-none"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
@@ -64,7 +87,9 @@ function Navbar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
-          className="md:hidden bg-blue-600 p-4 mt-2 rounded-b-lg shadow-lg"
+          className={`md:hidden p-4 mt-2 rounded-b-lg shadow-lg ${
+            darkMode ? "bg-gray-800 text-white" : "bg-blue-600 text-white"
+          }`}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -79,7 +104,7 @@ function Navbar() {
                   `text-lg font-medium transition-colors duration-300 ${
                     isActive
                       ? "text-yellow-300 border-l-4 border-yellow-300 pl-2"
-                      : "text-white hover:text-yellow-200"
+                      : "hover:text-yellow-200"
                   }`
                 }
                 onClick={() => setIsMenuOpen(false)}
