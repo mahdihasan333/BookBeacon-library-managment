@@ -18,6 +18,7 @@ import {
 } from "./ui/card";
 import { toast } from "./hooks/use-toast";
 import type { IBook } from "@/types";
+import { useTheme } from "./ThemeProvider"; // <-- theme hook
 
 interface BookFormProps {
   initialData?: IBook;
@@ -47,6 +48,7 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
   );
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useTheme(); // <-- get current theme
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -101,6 +103,7 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                 }
                 required
                 placeholder="Enter book title"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
@@ -117,6 +120,7 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                 }
                 required
                 placeholder="Enter author name"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
@@ -136,7 +140,11 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
                   {GENRES.map((genre) => (
-                    <SelectItem key={genre.value} value={genre.value}>
+                    <SelectItem
+                      key={genre.value}
+                      value={genre.value}
+                      className="dark:text-gray-100"
+                    >
                       {genre.label}
                     </SelectItem>
                   ))}
@@ -157,6 +165,7 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                 }
                 required
                 placeholder="Enter ISBN"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
@@ -190,9 +199,10 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                     copies: Number(e.target.value),
                   })
                 }
-                min="0"
+                min={0}
                 required
                 placeholder="Enter number of copies"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
@@ -208,6 +218,7 @@ function BookForm({ initialData, onSubmit }: BookFormProps) {
                   setFormData({ ...formData, image: e.target.value })
                 }
                 placeholder="Enter image URL"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 

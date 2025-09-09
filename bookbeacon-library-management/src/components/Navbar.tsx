@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X, Sun, Moon, Laptop } from "lucide-react";
@@ -10,7 +10,6 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { useTheme } from "./ThemeProvider";
-
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,8 +45,8 @@ function Navbar() {
               className={({ isActive }) =>
                 `text-lg font-medium transition-colors duration-300 ${
                   isActive
-                    ? "text-yellow-400 border-b-2 border-yellow-400"
-                    : "text-gray-700 dark:text-gray-300 hover:text-yellow-300"
+                    ? "text-[#4f46e5] border-b-2 border-[#4f46e5]"
+                    : "text-gray-700 dark:text-gray-300 hover:text-[#4f46e5]"
                 }`
               }
             >
@@ -68,15 +67,24 @@ function Navbar() {
               align="end"
               className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-md"
             >
-              <DropdownMenuItem onClick={() => setTheme("light")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("light")}
+              >
                 <Sun className="mr-2 h-4 w-4" />
                 <span>Light</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("dark")}
+              >
                 <Moon className="mr-2 h-4 w-4" />
                 <span>Dark</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("system")}
+              >
                 <Laptop className="mr-2 h-4 w-4" />
                 <span>System</span>
               </DropdownMenuItem>
@@ -99,15 +107,24 @@ function Navbar() {
               align="end"
               className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-md"
             >
-              <DropdownMenuItem onClick={() => setTheme("light")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("light")}
+              >
                 <Sun className="mr-2 h-4 w-4" />
                 <span>Light</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("dark")}
+              >
                 <Moon className="mr-2 h-4 w-4" />
                 <span>Dark</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem
+                className="hover:text-[#4f46e5]"
+                onClick={() => setTheme("system")}
+              >
                 <Laptop className="mr-2 h-4 w-4" />
                 <span>System</span>
               </DropdownMenuItem>
@@ -142,8 +159,8 @@ function Navbar() {
                 className={({ isActive }) =>
                   `text-lg font-medium transition-colors duration-300 ${
                     isActive
-                      ? "text-yellow-400 border-l-4 border-yellow-400 pl-2"
-                      : "text-gray-700 dark:text-gray-300 hover:text-yellow-300"
+                      ? "text-[#4f46e5] border-l-4 border-[#4f46e5] pl-2"
+                      : "text-gray-700 dark:text-gray-300 hover:text-[#4f46e5]"
                   }`
                 }
                 onClick={() => setIsMenuOpen(false)}

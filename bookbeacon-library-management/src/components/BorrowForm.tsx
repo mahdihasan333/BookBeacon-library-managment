@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { toast } from "./hooks/use-toast";
 import type { IBorrow } from "@/types";
+import { useTheme } from "./ThemeProvider"; // <-- theme hook
 
 interface BorrowFormProps {
   bookId: string;
@@ -21,6 +22,7 @@ function BorrowForm({ bookId, maxCopies, onSubmit }: BorrowFormProps) {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,7 +50,7 @@ function BorrowForm({ bookId, maxCopies, onSubmit }: BorrowFormProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      className="flex items-center justify-center px-4 sm:px-6 lg:px-8 "
     >
       <Card className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
         <CardHeader className="border-b border-gray-200 dark:border-gray-700">
@@ -73,6 +75,7 @@ function BorrowForm({ bookId, maxCopies, onSubmit }: BorrowFormProps) {
                 }
                 required
                 placeholder="Enter quantity"
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Available copies: <span className="font-semibold">{maxCopies}</span>
@@ -91,6 +94,7 @@ function BorrowForm({ bookId, maxCopies, onSubmit }: BorrowFormProps) {
                   setFormData({ ...formData, dueDate: e.target.value })
                 }
                 required
+                className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
